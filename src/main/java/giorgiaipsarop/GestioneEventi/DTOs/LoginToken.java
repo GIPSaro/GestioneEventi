@@ -1,4 +1,4 @@
 package giorgiaipsarop.GestioneEventi.DTOs;
 
-public record LoginToken() {
+public record LoginToken(String loginToken) {
 }
