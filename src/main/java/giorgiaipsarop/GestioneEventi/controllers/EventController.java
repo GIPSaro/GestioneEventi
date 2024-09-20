@@ -47,10 +47,9 @@ public class EventController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public Event saveEvent(@RequestBody NewEvent newEvent) {
-        return this.eventService.saveEvent(newEvent);
+    public Event saveEvent(@RequestBody NewEvent newEvent, @AuthenticationPrincipal User currentAuthenticatedUser) {
+        return this.eventService.saveEvent(newEvent, currentAuthenticatedUser.getId());
     }
-
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")

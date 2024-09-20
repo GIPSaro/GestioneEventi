@@ -35,11 +35,21 @@ public class EventService {
         return eventRepository.findById(id).orElseThrow(() -> new NotFoundException("Event identified as: " + id + " was not found."));
     }
 
-    public Event saveEvent(NewEvent newEvent) {
-        Event eventToSave = new Event(newEvent.title(), newEvent.description(), newEvent.date(), newEvent.location(), newEvent.capacity());
-        return eventRepository.save(eventToSave);
+    public Event saveEvent(NewEvent newEvent, UUID userId) {
 
+        Event eventToSave = new Event(newEvent.title(), newEvent.description(), newEvent.date(), newEvent.location(), newEvent.capacity());
+        Event savedEvent = eventRepository.save(eventToSave);
+
+
+        User user = userService.findById(userId);
+        user.getReservedEvents().add(savedEvent);
+
+
+        userService.updateUser(user);
+
+        return savedEvent;
     }
+
 
     public Event update(UUID id, Event modifiedEvent) {
         Event found = this.findById(id);

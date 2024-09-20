@@ -45,5 +45,8 @@ public class UserService {
         User found = this.findById(id);
         userRepository.delete(found);
     }
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
 
 }

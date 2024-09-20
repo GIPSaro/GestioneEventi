@@ -27,7 +27,7 @@ public class Event {
     private LocalDate date;
     private String location;
     private int capacity;
-    @ManyToMany(mappedBy = "reservedEvents")
+    @ManyToMany(mappedBy = "reservedEvents", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private Set<User> participants = new HashSet<>();
 
@@ -40,10 +40,19 @@ public class Event {
 
     }
 
-    public void setParticipant(User user) {
+    public void addParticipant(User user) {
         this.participants.add(user);
+        user.getReservedEvents().add(this);
+
+
     }
 
-    public void removeParticipant(User user) {this.participants.remove(user);}
-}
+    public void removeParticipant(User user) {
+        this.participants.remove(user);
+        user.getReservedEvents().remove(this);
 
+    }
+
+    public void setParticipant(User user) {
+    }
+}
