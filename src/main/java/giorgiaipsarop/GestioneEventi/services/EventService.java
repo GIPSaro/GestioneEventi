@@ -36,7 +36,9 @@ public class EventService {
     }
 
     public Event saveEvent(NewEvent newEvent) {
-        return new Event(newEvent.title(), newEvent.description(), newEvent.date(), newEvent.location(), newEvent.capacity());
+        Event eventToSave = new Event(newEvent.title(), newEvent.description(), newEvent.date(), newEvent.location(), newEvent.capacity());
+        return eventRepository.save(eventToSave);
+
     }
 
     public Event update(UUID id, Event modifiedEvent) {
